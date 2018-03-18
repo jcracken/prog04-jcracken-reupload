@@ -11,6 +11,6 @@ int main(int argc, char** argv) {
 
 	object->readData(argv[1]);
 
-	object->readData(argv[2]);
+	object->writeData(argv[2]);
 	return 0;
 }
