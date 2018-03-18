@@ -26,7 +26,7 @@ void obj::readData(std::string filename) {
 					iss >> temp[0];
 					iss >> temp[1];
 					iss >> temp[2];
-					this->faces.push_back(vect(temp[0], temp[1], temp[2]));
+					this->faces.push_back(vect(temp[0] - 1, temp[1] - 1, temp[2] - 1));
 				break;
 				default:
 					//white space
