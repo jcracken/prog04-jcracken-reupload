@@ -14,4 +14,5 @@ void obj::writeData(std::string filename) {
 	for (i = 0; i < this->faces.size(); i++) {
 		out << "f " << (int)(this->faces.at(i).getArr[0] + 1) << " " << (int)(this->faces.at(i).getArr[1] + 1) << " " << (int)(this->faces.at(i).getArr[2] + 1) << std::endl;
 	}
+	out.close();
 }
