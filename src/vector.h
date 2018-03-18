@@ -12,5 +12,6 @@ public:
 	float* getArr();
 	float dotProduct(vector* other);
 	void add(vector* other);
+	vector crossProduct(vector* other);
 };
 #endif

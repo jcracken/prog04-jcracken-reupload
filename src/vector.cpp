@@ -28,8 +28,16 @@ float * vector::getArr() {
 	return this->arr;
 }
 
+float vector::dotProduct(vector * other){
+	return this->arr[0] * (other->getArr()[0]) + this->arr[1] * (other->getArr()[1]) + this->arr[2] * (other->getArr()[2]);
+}
+
 void vector::add(vector * other){
 	this->arr[0] = this->arr[0] + other->getArr()[0];
 	this->arr[1] = this->arr[1] + other->getArr()[1];
 	this->arr[2] = this->arr[2] + other->getArr()[2];
+}
+
+vector vector::crossProduct(vector * other) {
+	return vector(this->arr[1] * other->getArr()[2] - other->getArr()[1] * this->arr[2], other->getArr()[0] * this->arr[2] - this->arr[0] * other->getArr()[2], this->arr[0] * other->getArr()[1] - other->getArr()[0] * this->arr[1]);
 }
