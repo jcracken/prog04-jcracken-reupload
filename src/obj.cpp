@@ -49,9 +49,65 @@ void obj::writeData(std::string filename) {
 void obj::storeData(){
 	unsigned int i = 0;
 	unsigned int j = 0;
+	unsigned int k = 0;
+	unsigned int firstedgeExist, secedgeExist, thirdedgeExist;
+	bool firstexist = false;
+	bool secexist = false;
+	bool thirdexist = false;
 	for (i = 0; i < this->faces.size(); i++) {
-		//populate list of edges
-		//populate list of triangles
-		//have the two point to each other
+		this->triangles.push_back(triangle());
+		this->triangles.at(k).populatePoint(this->points.at(this->faces.at(i).getArr()[0]));
+		this->triangles.at(k).populatePoint(this->points.at(this->faces.at(i).getArr()[1]));
+		this->triangles.at(k).populatePoint(this->points.at(this->faces.at(i).getArr()[2]));
+		for (j = 0; j < this->edges.size(); j++) {
+			//first and second point
+			if (this->edges.at(j).isSame(this->points.at(this->faces.at(i).getArr()[0]), this->points.at(this->faces.at(i).getArr()[1]))) {
+				firstexist = true;
+				firstedgeExist = j;
+			}
+			//second and third point
+			if (this->edges.at(j).isSame(this->points.at(this->faces.at(i).getArr()[1]), this->points.at(this->faces.at(i).getArr()[2]))) {
+				secexist = true;
+				secedgeExist = j;
+			}
+			//first and third point
+			if (this->edges.at(j).isSame(this->points.at(this->faces.at(i).getArr()[0]), this->points.at(this->faces.at(i).getArr()[2]))) {
+				thirdexist = true;
+				thirdedgeExist = j;
+			}
+		}
+		if (!firstexist) {
+			edge e = edge();
+			e.populatePoint(this->points.at(this->faces.at(i).getArr()[0]));
+			e.populatePoint(this->points.at(this->faces.at(i).getArr()[1]));
+			e.populateTriangle(&this->triangles.at(k));
+			this->edges.push_back(e);
+		}
+		else {
+			this->edges.at(firstedgeExist).populateTriangle(&this->triangles.at(k));
+		}
+		if (!secexist) {
+			edge e = edge();
+			e.populatePoint(this->points.at(this->faces.at(i).getArr()[1]));
+			e.populatePoint(this->points.at(this->faces.at(i).getArr()[2]));
+			e.populateTriangle(&this->triangles.at(k));
+			this->edges.push_back(e);
+		}
+		else {
+			this->edges.at(secedgeExist).populateTriangle(&this->triangles.at(k));
+		}
+		if (!thirdexist) {
+			edge e = edge();
+			e.populatePoint(this->points.at(this->faces.at(i).getArr()[0]));
+			e.populatePoint(this->points.at(this->faces.at(i).getArr()[2]));
+			e.populateTriangle(&this->triangles.at(k));
+			this->edges.push_back(e);
+		}
+		else {
+			this->edges.at(thirdedgeExist).populateTriangle(&this->triangles.at(k));
+		}
+		firstexist = false;
+		secexist = false;
+		thirdexist = false;
 	}
 }
