@@ -9,3 +9,7 @@ Automatic multiview quadruple alignment of unordered range scans. Shape Modeling
 * bunny.obj is the well known Stanford bunny model [http://graphics.stanford.edu/data/3Dscanrep/](http://graphics.stanford.edu/data/3Dscanrep/), after repairing holes.  
     * bunny_lowres.obj is a simplified mesh using quadric error decimation
 * teapot.obj is the well known Utah teapot model [https://www.sjbaker.org/wiki/index.php?title=The_History_of_The_Teapot](https://www.sjbaker.org/wiki/index.php?title=The_History_of_The_Teapot) due to Martin Newell.  Note that this model is NOT a manifold mesh.
+
+# References
+
+I'm using this document: http://www.cs.cmu.edu/afs/cs/academic/class/15462-s14/www/lec_slides/Subdivision.pdf for guidance on the loop subdivision algorithm. It has weights of 3/8 bordering points and 1/8 opposite points for interior odd vertices, and 1/2 for boundary odd vertices.

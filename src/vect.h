@@ -13,5 +13,6 @@ public:
 	float dotProduct(vect* other);
 	void add(vect* other);
 	vect crossProduct(vect* other);
+	bool comp(vect* other);
 };
 #endif

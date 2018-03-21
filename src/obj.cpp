@@ -45,3 +45,13 @@ void obj::writeData(std::string filename) {
 	}
 	out.close();
 }
+
+void obj::storeData(){
+	unsigned int i = 0;
+	unsigned int j = 0;
+	for (i = 0; i < this->faces.size(); i++) {
+		//populate list of edges
+		//populate list of triangles
+		//have the two point to each other
+	}
+}
