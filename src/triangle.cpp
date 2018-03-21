@@ -15,7 +15,3 @@ vect triangle::thirdPoint(vect head, vect tail){
 void triangle::populatePoint(vect point){
 	this->points.push_back(point);
 }
-
-void triangle::populateEdge(edge n){
-	this->edges.push_back(n);
-}
