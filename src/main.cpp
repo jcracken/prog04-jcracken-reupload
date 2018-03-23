@@ -12,5 +12,8 @@ int main(int argc, char** argv) {
 	object->readData(argv[1]);
 
 	object->writeData(argv[2]);
+
+	object->storeData();
+
 	return 0;
 }
