@@ -50,11 +50,48 @@ void obj::storeData(){
 	unsigned int i = 0;
 	unsigned int j = 0;
 	unsigned int k = 0;
+	unsigned int m = 0;
 	unsigned int firstedgeExist, secedgeExist, thirdedgeExist;
 	bool firstexist = false;
 	bool secexist = false;
 	bool thirdexist = false;
+	bool pointOne = false;
+	bool pointTwo = false;
+
+	for (i = 0; i < this->points.size(); i++) {
+		std::vector<int> dummy(-1);
+		pointConns.push_back(dummy);
+	}
+
 	for (i = 0; i < this->faces.size(); i++) {
+
+		for (m = 0; m < this->pointConns.at(this->faces.at(i).getArr()[0]).size(); m++) {
+			if (this->pointConns.at(this->faces.at(i).getArr()[0]).at(m) == this->faces.at(i).getArr()[1]) pointOne = true;
+			if (this->pointConns.at(this->faces.at(i).getArr()[0]).at(m) == this->faces.at(i).getArr()[2]) pointTwo = true;
+		}
+		if (!pointOne) this->pointConns.at(this->faces.at(i).getArr()[0]).push_back(this->faces.at(i).getArr()[1]);
+		if (!pointTwo) this->pointConns.at(this->faces.at(i).getArr()[0]).push_back(this->faces.at(i).getArr()[2]);
+		pointOne = false;
+		pointTwo = false;
+
+		for (m = 0; m < this->pointConns.at(this->faces.at(i).getArr()[1]).size(); m++) {
+			if (this->pointConns.at(this->faces.at(i).getArr()[1]).at(m) == this->faces.at(i).getArr()[0]) pointOne = true;
+			if (this->pointConns.at(this->faces.at(i).getArr()[1]).at(m) == this->faces.at(i).getArr()[2]) pointTwo = true;
+		}
+		if (!pointOne) this->pointConns.at(this->faces.at(i).getArr()[1]).push_back(this->faces.at(i).getArr()[0]);
+		if (!pointTwo) this->pointConns.at(this->faces.at(i).getArr()[1]).push_back(this->faces.at(i).getArr()[2]);
+		pointOne = false;
+		pointTwo = false;
+
+		for (m = 0; m < this->pointConns.at(this->faces.at(i).getArr()[2]).size(); m++) {
+			if (this->pointConns.at(this->faces.at(i).getArr()[2]).at(m) == this->faces.at(i).getArr()[1]) pointOne = true;
+			if (this->pointConns.at(this->faces.at(i).getArr()[2]).at(m) == this->faces.at(i).getArr()[0]) pointTwo = true;
+		}
+		if (!pointOne) this->pointConns.at(this->faces.at(i).getArr()[2]).push_back(this->faces.at(i).getArr()[1]);
+		if (!pointTwo) this->pointConns.at(this->faces.at(i).getArr()[2]).push_back(this->faces.at(i).getArr()[0]);
+		pointOne = false;
+		pointTwo = false;
+
 		this->triangles.push_back(triangle());
 		this->triangles.at(k).populatePoint(this->points.at(this->faces.at(i).getArr()[0]));
 		this->triangles.at(k).populatePoint(this->points.at(this->faces.at(i).getArr()[1]));
@@ -109,5 +146,8 @@ void obj::storeData(){
 		firstexist = false;
 		secexist = false;
 		thirdexist = false;
+	}
+	for (i = 0; i < pointConns.size(); i++) {
+		pointConns.at(i).erase(pointConns.at(i).begin());
 	}
 }

@@ -18,6 +18,7 @@ private:
 	std::vector<vect> faces;
 	std::vector<edge> edges;
 	std::vector<triangle> triangles;
+	std::vector<std::vector<int>> pointConns;
 public:
 	void readData(std::string filename);
 	void writeData(std::string filename);
