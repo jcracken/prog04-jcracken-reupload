@@ -42,8 +42,8 @@ vect vect::crossProduct(vect * other) {
 	return vect(this->arr[1] * other->getArr()[2] - other->getArr()[1] * this->arr[2], other->getArr()[0] * this->arr[2] - this->arr[0] * other->getArr()[2], this->arr[0] * other->getArr()[1] - other->getArr()[0] * this->arr[1]);
 }
 
-bool vect::comp(vect * other){
-	float* temp = other->getArr();
+bool vect::comp(vect other){
+	float* temp = other.getArr();
 	if(this->arr[0] == temp[0] && this->arr[1] == temp[1] && this->arr[2] == temp[2]) return true;
 	else return false;
 }

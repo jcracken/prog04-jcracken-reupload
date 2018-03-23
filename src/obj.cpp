@@ -51,7 +51,7 @@ void obj::storeData(){
 	unsigned int j = 0;
 	unsigned int k = 0;
 	unsigned int m = 0;
-	unsigned int firstedgeExist, secedgeExist, thirdedgeExist;
+	unsigned int firstedgeExist = 0, secedgeExist = 0, thirdedgeExist = 0;
 	bool firstexist = false;
 	bool secexist = false;
 	bool thirdexist = false;
@@ -59,7 +59,7 @@ void obj::storeData(){
 	bool pointTwo = false;
 
 	for (i = 0; i < this->points.size(); i++) {
-		std::vector<int> dummy(-1);
+		std::vector<int> dummy(1, -1);
 		pointConns.push_back(dummy);
 	}
 
@@ -115,8 +115,8 @@ void obj::storeData(){
 		}
 		if (!firstexist) {
 			edge e = edge();
-			e.populatePoint(this->points.at(this->faces.at(i).getArr()[0]));
-			e.populatePoint(this->points.at(this->faces.at(i).getArr()[1]));
+			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[0])));
+			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[1])));
 			e.populateTriangle(&this->triangles.at(k));
 			this->edges.push_back(e);
 		}
@@ -125,8 +125,8 @@ void obj::storeData(){
 		}
 		if (!secexist) {
 			edge e = edge();
-			e.populatePoint(this->points.at(this->faces.at(i).getArr()[1]));
-			e.populatePoint(this->points.at(this->faces.at(i).getArr()[2]));
+			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[1])));
+			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[2])));
 			e.populateTriangle(&this->triangles.at(k));
 			this->edges.push_back(e);
 		}
@@ -135,8 +135,8 @@ void obj::storeData(){
 		}
 		if (!thirdexist) {
 			edge e = edge();
-			e.populatePoint(this->points.at(this->faces.at(i).getArr()[0]));
-			e.populatePoint(this->points.at(this->faces.at(i).getArr()[2]));
+			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[0])));
+			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[2])));
 			e.populateTriangle(&this->triangles.at(k));
 			this->edges.push_back(e);
 		}
@@ -145,7 +145,8 @@ void obj::storeData(){
 		}
 		firstexist = false;
 		secexist = false;
-		thirdexist = false;
+		thirdexist = false; 
+		k++;
 	}
 	for (i = 0; i < pointConns.size(); i++) {
 		pointConns.at(i).erase(pointConns.at(i).begin());

@@ -7,7 +7,7 @@ edge::edge(){
 }
 
 bool edge::isSame(vect head, vect tail){
-	if (this->head->comp(&head) && this->tail->comp(&tail) || this->head->comp(&tail) && this->tail->comp(&head)) return true;
+	if ((this->head->comp(head) && this->tail->comp(tail)) || (this->head->comp(tail) && this->tail->comp(head))) return true;
 	else return false;
 }
 
@@ -23,9 +23,9 @@ float* edge::loopHelp(){
 	return ret;
 }
 
-void edge::populatePoint(vect point){
-	if (this->head == NULL) this->head = &point;
-	else this->tail = &point;
+void edge::populatePoint(vect* point){
+	if (this->head == NULL) this->head = point;
+	else this->tail = point;
 }
 
 void edge::populateTriangle(triangle* t) {
