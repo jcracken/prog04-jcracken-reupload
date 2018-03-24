@@ -231,33 +231,33 @@ void obj::subdivide() {
 		}
 
 		//pointA
-		if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointA)) && this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointA))) {
+		if (this->triangles.at(i).getEdge(0)->isPart(this->points.at(pointA)) && this->triangles.at(i).getEdge(1)->isPart(this->points.at(pointA))) {
 			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(1)->getOdd(), pointA));
-		} else if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointA)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointA))) {
+		} else if (this->triangles.at(i).getEdge(0)->isPart(this->points.at(pointA)) && this->triangles.at(i).getEdge(2)->isPart(this->points.at(pointA))) {
 			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointA));
-		} else if (this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointA)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointA))) {
+		} else if (this->triangles.at(i).getEdge(1)->isPart(this->points.at(pointA)) && this->triangles.at(i).getEdge(2)->isPart(this->points.at(pointA))) {
 			newFaces.push_back(vect(this->triangles.at(i).getEdge(1)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointA));
 		}
 
 		//pointB
-		if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointB)) && this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointB))) {
+		if (this->triangles.at(i).getEdge(0)->isPart(this->points.at(pointB)) && this->triangles.at(i).getEdge(1)->isPart(this->points.at(pointB))) {
 			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(1)->getOdd(), pointB));
 		}
-		else if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointB)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointB))) {
+		else if (this->triangles.at(i).getEdge(0)->isPart(this->points.at(pointB)) && this->triangles.at(i).getEdge(2)->isPart(this->points.at(pointB))) {
 			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointB));
 		}
-		else if (this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointB)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointB))) {
+		else if (this->triangles.at(i).getEdge(1)->isPart(this->points.at(pointB)) && this->triangles.at(i).getEdge(2)->isPart(this->points.at(pointB))) {
 			newFaces.push_back(vect(this->triangles.at(i).getEdge(1)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointB));
 		}
 
 		//pointC
-		if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointC)) && this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointC))) {
+		if (this->triangles.at(i).getEdge(0)->isPart(this->points.at(pointC)) && this->triangles.at(i).getEdge(1)->isPart(this->points.at(pointC))) {
 			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(1)->getOdd(), pointC));
 		}
-		else if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointC)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointC))) {
+		else if (this->triangles.at(i).getEdge(0)->isPart(this->points.at(pointC)) && this->triangles.at(i).getEdge(2)->isPart(this->points.at(pointC))) {
 			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointC));
 		}
-		else if (this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointC)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointC))) {
+		else if (this->triangles.at(i).getEdge(1)->isPart(this->points.at(pointC)) && this->triangles.at(i).getEdge(2)->isPart(this->points.at(pointC))) {
 			newFaces.push_back(vect(this->triangles.at(i).getEdge(1)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointC));
 		}
 
