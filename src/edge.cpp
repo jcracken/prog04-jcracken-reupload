@@ -11,8 +11,7 @@ bool edge::isSame(vect head, vect tail){
 	else return false;
 }
 
-float* edge::loopHelp(){
-	float ret[3] = { 0 };
+void edge::loopHelp(float* ret){
 	if (triang.size() == 2) { //check to see if it's a boundary
 		float* temp1 = triang.at(0)->thirdPoint(*head, *tail).getArr();
 		float* temp2 = triang.at(1)->thirdPoint(*head, *tail).getArr();
@@ -25,7 +24,6 @@ float* edge::loopHelp(){
 		ret[1] = (1.0 / 2.0) * (this->head->getArr()[1] + this->tail->getArr()[1]);
 		ret[2] = (1.0 / 2.0) * (this->head->getArr()[2] + this->tail->getArr()[2]);
 	}
-	return ret;
 }
 
 void edge::populatePoint(vect* point){

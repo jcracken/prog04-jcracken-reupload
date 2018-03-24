@@ -14,7 +14,7 @@ private:
 public:
 	edge();
 	bool isSame(vect head, vect tail);
-	float* loopHelp();
+	void loopHelp(float* ret);
 	void populatePoint(vect* point);
 	void populateTriangle(triangle* t);
 	void setOdd(int odd);

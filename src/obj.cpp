@@ -1,5 +1,13 @@
 #include "obj.h"
 
+obj::obj() {
+	//constructor
+	triangles.reserve(1000);
+	points.reserve(1000);
+	faces.reserve(1000);
+	edges.reserve(1000);
+}
+
 void obj::readData(std::string filename) {
 	std::ifstream input(filename, std::ifstream::in);
 	std::string parse;
@@ -121,36 +129,36 @@ void obj::storeData(){
 			edge e = edge();
 			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[0])));
 			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[1])));
-			e.populateTriangle(&this->triangles.at(k));
+			e.populateTriangle(&(this->triangles.at(k)));
 			this->edges.push_back(e);
 			this->triangles.at(k).populateEdge(&(this->edges.at(this->edges.size() - 1)));
 		}
 		else {
-			this->edges.at(firstedgeExist).populateTriangle(&this->triangles.at(k));
+			this->edges.at(firstedgeExist).populateTriangle(&(this->triangles.at(k)));
 			this->triangles.at(k).populateEdge(&(this->edges.at(firstedgeExist)));
 		}
 		if (!secexist) {
 			edge e = edge();
 			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[1])));
 			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[2])));
-			e.populateTriangle(&this->triangles.at(k));
+			e.populateTriangle(&(this->triangles.at(k)));
 			this->edges.push_back(e);
 			this->triangles.at(k).populateEdge(&(this->edges.at(this->edges.size() - 1)));
 		}
 		else {
-			this->edges.at(secedgeExist).populateTriangle(&this->triangles.at(k));
+			this->edges.at(secedgeExist).populateTriangle(&(this->triangles.at(k)));
 			this->triangles.at(k).populateEdge(&(this->edges.at(secedgeExist)));
 		}
 		if (!thirdexist) {
 			edge e = edge();
 			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[0])));
 			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[2])));
-			e.populateTriangle(&this->triangles.at(k));
+			e.populateTriangle(&(this->triangles.at(k)));
 			this->edges.push_back(e);
 			this->triangles.at(k).populateEdge(&(this->edges.at(this->edges.size() - 1)));
 		}
 		else {
-			this->edges.at(thirdedgeExist).populateTriangle(&this->triangles.at(k));
+			this->edges.at(thirdedgeExist).populateTriangle(&(this->triangles.at(k)));
 			this->triangles.at(k).populateEdge(&(this->edges.at(thirdedgeExist)));
 		}
 		firstexist = false;
@@ -201,7 +209,8 @@ void obj::subdivide() {
 	}
 
 	for (i = 0; i < this->edges.size(); i++) { //odd vertices
-		float* temp = this->edges.at(i).loopHelp();
+		float temp[3];
+		this->edges.at(i).loopHelp(temp);
 		newPoints.push_back(vect(temp[0], temp[1], temp[2]));
 		this->edges.at(i).setOdd(newPoints.size() - 1);
 	}
@@ -210,13 +219,13 @@ void obj::subdivide() {
 	for (i = 0; i < this->triangles.size(); i++) {
 		int pointA, pointB, pointC;
 		for (j = 0; j < this->points.size(); j++) {
-			if (newPoints.at(j).comp((this->triangles.at(i).getPoint(0)))) {
+			if (this->points.at(j).comp((this->triangles.at(i).getPoint(0)))) {
 				pointA = j;
 			}
-			else if (newPoints.at(j).comp((this->triangles.at(i).getPoint(1)))) {
+			else if (this->points.at(j).comp((this->triangles.at(i).getPoint(1)))) {
 				pointB = j;
 			}
-			else if (newPoints.at(j).comp((this->triangles.at(i).getPoint(2)))) {
+			else if (this->points.at(j).comp((this->triangles.at(i).getPoint(2)))) {
 				pointC = j;
 			}
 		}

@@ -20,6 +20,7 @@ private:
 	std::vector<triangle> triangles;
 	std::vector<std::vector<int>> pointConns;
 public:
+	obj();
 	void readData(std::string filename);
 	void writeData(std::string filename);
 	void storeData();
