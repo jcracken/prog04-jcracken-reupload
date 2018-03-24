@@ -7,13 +7,13 @@ class edge; //forward declaration, think of this as an edge.h include
 
 class triangle {
 private:
-	std::vector<vect*> points;
-	std::vector<edge*> edges;
+	std::vector<vect*> points; //the three points that make up this triangle
+	std::vector<edge*> edges; //the three edges that make up this triangle
 public:
-	triangle();
-	vect thirdPoint(vect head, vect tail);
-	void populatePoint(vect* point);
-	void populateEdge(edge* e);
+	triangle(); //constructor
+	vect thirdPoint(vect head, vect tail); //finds the third point that aren't the two passed in
+	void populatePoint(vect* point); //add a point to the vector
+	void populateEdge(edge* e); //add an edge to the vector
 	vect getPoint(int num);
 	edge* getEdge(int num);
 };
