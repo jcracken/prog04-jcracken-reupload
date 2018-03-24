@@ -58,6 +58,10 @@ void obj::storeData(){
 	bool pointOne = false;
 	bool pointTwo = false;
 
+	this->edges.clear();
+	this->triangles.clear();
+	this->pointConns.clear();
+
 	for (i = 0; i < this->points.size(); i++) {
 		std::vector<int> dummy(1, -1);
 		pointConns.push_back(dummy);
@@ -151,4 +155,27 @@ void obj::storeData(){
 	for (i = 0; i < pointConns.size(); i++) {
 		pointConns.at(i).erase(pointConns.at(i).begin());
 	}
+}
+
+void obj::subdivide() {
+	std::vector<vect> newPoints;
+	std::vector<vect> newFaces;
+
+	unsigned int i, j;
+
+	for (i = 0; i < this->points.size(); i++) { //even vertices
+		float temp[3] = { 0 };
+
+	}
+
+	for (i = 0; i < this->edges.size(); i++) { //odd vertices
+		float* temp = this->edges.at(i).loopHelp();
+		newPoints.push_back(vect(temp[0], temp[1], temp[2]));
+	}
+
+	//find out how to create the newFaces vector
+
+	this->points.swap(newPoints);
+	this->faces.swap(newFaces);
+	this->storeData();
 }

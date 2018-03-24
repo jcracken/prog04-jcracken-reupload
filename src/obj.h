@@ -23,5 +23,6 @@ public:
 	void readData(std::string filename);
 	void writeData(std::string filename);
 	void storeData();
+	void subdivide();
 };
 #endif
