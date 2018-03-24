@@ -97,9 +97,9 @@ void obj::storeData(){
 		pointTwo = false;
 
 		this->triangles.push_back(triangle());
-		this->triangles.at(k).populatePoint(this->points.at(this->faces.at(i).getArr()[0]));
-		this->triangles.at(k).populatePoint(this->points.at(this->faces.at(i).getArr()[1]));
-		this->triangles.at(k).populatePoint(this->points.at(this->faces.at(i).getArr()[2]));
+		this->triangles.at(k).populatePoint(&this->points.at(this->faces.at(i).getArr()[0]));
+		this->triangles.at(k).populatePoint(&this->points.at(this->faces.at(i).getArr()[1]));
+		this->triangles.at(k).populatePoint(&this->points.at(this->faces.at(i).getArr()[2]));
 		for (j = 0; j < this->edges.size(); j++) {
 			//first and second point
 			if (this->edges.at(j).isSame(this->points.at(this->faces.at(i).getArr()[0]), this->points.at(this->faces.at(i).getArr()[1]))) {
@@ -123,9 +123,11 @@ void obj::storeData(){
 			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[1])));
 			e.populateTriangle(&this->triangles.at(k));
 			this->edges.push_back(e);
+			this->triangles.at(k).populateEdge(&(this->edges.at(this->edges.size() - 1)));
 		}
 		else {
 			this->edges.at(firstedgeExist).populateTriangle(&this->triangles.at(k));
+			this->triangles.at(k).populateEdge(&(this->edges.at(firstedgeExist)));
 		}
 		if (!secexist) {
 			edge e = edge();
@@ -133,9 +135,11 @@ void obj::storeData(){
 			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[2])));
 			e.populateTriangle(&this->triangles.at(k));
 			this->edges.push_back(e);
+			this->triangles.at(k).populateEdge(&(this->edges.at(this->edges.size() - 1)));
 		}
 		else {
 			this->edges.at(secedgeExist).populateTriangle(&this->triangles.at(k));
+			this->triangles.at(k).populateEdge(&(this->edges.at(secedgeExist)));
 		}
 		if (!thirdexist) {
 			edge e = edge();
@@ -143,9 +147,11 @@ void obj::storeData(){
 			e.populatePoint(&(this->points.at(this->faces.at(i).getArr()[2])));
 			e.populateTriangle(&this->triangles.at(k));
 			this->edges.push_back(e);
+			this->triangles.at(k).populateEdge(&(this->edges.at(this->edges.size() - 1)));
 		}
 		else {
 			this->edges.at(thirdedgeExist).populateTriangle(&this->triangles.at(k));
+			this->triangles.at(k).populateEdge(&(this->edges.at(thirdedgeExist)));
 		}
 		firstexist = false;
 		secexist = false;
@@ -162,18 +168,92 @@ void obj::subdivide() {
 	std::vector<vect> newFaces;
 
 	unsigned int i, j;
+	float weight = 0.0;
 
 	for (i = 0; i < this->points.size(); i++) { //even vertices
 		float temp[3] = { 0 };
-
+		if (this->pointConns.at(i).size() == 2) {
+			temp[0] = (1.0 / 8.0) * (this->points.at(this->pointConns.at(i).at(0)).getArr()[0] + this->points.at(this->pointConns.at(i).at(1)).getArr()[0]) + (3.0 / 4.0) * this->points.at(i).getArr()[0];
+			temp[1] = (1.0 / 8.0) * (this->points.at(this->pointConns.at(i).at(0)).getArr()[1] + this->points.at(this->pointConns.at(i).at(1)).getArr()[1]) + (3.0 / 4.0) * this->points.at(i).getArr()[1];
+			temp[2] = (1.0 / 8.0) * (this->points.at(this->pointConns.at(i).at(0)).getArr()[2] + this->points.at(this->pointConns.at(i).at(1)).getArr()[2]) + (3.0 / 4.0) * this->points.at(i).getArr()[2];
+		} else if (this->pointConns.at(i).size() == 3) {
+			weight = (3.0 / 16.0);
+			temp[0] = this->points.at(i).getArr()[0] * (1.0 - 3.0 * weight);
+			temp[1] = this->points.at(i).getArr()[1] * (1.0 - 3.0 * weight);
+			temp[2] = this->points.at(i).getArr()[2] * (1.0 - 3.0 * weight);
+			for (j = 0; j < this->pointConns.at(i).size(); j++) {
+				temp[0] = temp[0] + (this->points.at(this->pointConns.at(i).at(j)).getArr()[0]) * weight;
+				temp[1] = temp[1] + (this->points.at(this->pointConns.at(i).at(j)).getArr()[1]) * weight;
+				temp[2] = temp[2] + (this->points.at(this->pointConns.at(i).at(j)).getArr()[2]) * weight;
+			}
+		} else {
+			weight = (3.0 / (8.0 * this->pointConns.at(i).size()));
+			temp[0] = this->points.at(i).getArr()[0] * (1.0 - this->pointConns.at(i).size() * weight);
+			temp[1] = this->points.at(i).getArr()[1] * (1.0 - this->pointConns.at(i).size() * weight);
+			temp[2] = this->points.at(i).getArr()[2] * (1.0 - this->pointConns.at(i).size() * weight);
+			for (j = 0; j < this->pointConns.at(i).size(); j++) {
+				temp[0] = temp[0] + (this->points.at(this->pointConns.at(i).at(j)).getArr()[0]) * weight;
+				temp[1] = temp[1] + (this->points.at(this->pointConns.at(i).at(j)).getArr()[1]) * weight;
+				temp[2] = temp[2] + (this->points.at(this->pointConns.at(i).at(j)).getArr()[2]) * weight;
+			}
+		}
+		newPoints.push_back(vect(temp[0], temp[1], temp[2]));
 	}
 
 	for (i = 0; i < this->edges.size(); i++) { //odd vertices
 		float* temp = this->edges.at(i).loopHelp();
 		newPoints.push_back(vect(temp[0], temp[1], temp[2]));
+		this->edges.at(i).setOdd(newPoints.size() - 1);
 	}
 
 	//find out how to create the newFaces vector
+	for (i = 0; i < this->triangles.size(); i++) {
+		int pointA, pointB, pointC;
+		for (j = 0; j < this->points.size(); j++) {
+			if (newPoints.at(j).comp((this->triangles.at(i).getPoint(0)))) {
+				pointA = j;
+			}
+			else if (newPoints.at(j).comp((this->triangles.at(i).getPoint(1)))) {
+				pointB = j;
+			}
+			else if (newPoints.at(j).comp((this->triangles.at(i).getPoint(2)))) {
+				pointC = j;
+			}
+		}
+
+		//pointA
+		if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointA)) && this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointA))) {
+			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(1)->getOdd(), pointA));
+		} else if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointA)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointA))) {
+			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointA));
+		} else if (this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointA)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointA))) {
+			newFaces.push_back(vect(this->triangles.at(i).getEdge(1)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointA));
+		}
+
+		//pointB
+		if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointB)) && this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointB))) {
+			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(1)->getOdd(), pointB));
+		}
+		else if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointB)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointB))) {
+			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointB));
+		}
+		else if (this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointB)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointB))) {
+			newFaces.push_back(vect(this->triangles.at(i).getEdge(1)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointB));
+		}
+
+		//pointC
+		if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointC)) && this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointC))) {
+			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(1)->getOdd(), pointC));
+		}
+		else if (this->triangles.at(i).getEdge(0)->isPart(newPoints.at(pointC)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointC))) {
+			newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointC));
+		}
+		else if (this->triangles.at(i).getEdge(1)->isPart(newPoints.at(pointC)) && this->triangles.at(i).getEdge(2)->isPart(newPoints.at(pointC))) {
+			newFaces.push_back(vect(this->triangles.at(i).getEdge(1)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd(), pointC));
+		}
+
+		newFaces.push_back(vect(this->triangles.at(i).getEdge(0)->getOdd(), this->triangles.at(i).getEdge(1)->getOdd(), this->triangles.at(i).getEdge(2)->getOdd()));
+	}
 
 	this->points.swap(newPoints);
 	this->faces.swap(newFaces);

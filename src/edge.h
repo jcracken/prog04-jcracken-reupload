@@ -10,11 +10,17 @@ private:
 	vect* head;
 	vect* tail;
 	std::vector<triangle*> triang;
+	int odd;
 public:
 	edge();
 	bool isSame(vect head, vect tail);
 	float* loopHelp();
 	void populatePoint(vect* point);
 	void populateTriangle(triangle* t);
+	void setOdd(int odd);
+	int getOdd();
+	vect* getHead();
+	vect* getTail();
+	bool isPart(vect point);
 };
 #endif

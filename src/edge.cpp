@@ -36,3 +36,23 @@ void edge::populatePoint(vect* point){
 void edge::populateTriangle(triangle* t) {
 	this->triang.push_back(t);
 }
+
+void edge::setOdd(int odd){
+	this->odd = odd;
+}
+
+int edge::getOdd() {
+	return this->odd;
+}
+
+vect * edge::getHead() {
+	return this->head;
+}
+
+vect * edge::getTail() {
+	return this->tail;
+}
+
+bool edge::isPart(vect point) {
+	return (this->head->comp(point) || this->tail->comp(point));
+}
