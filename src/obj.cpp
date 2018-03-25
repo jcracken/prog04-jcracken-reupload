@@ -2,10 +2,10 @@
 
 obj::obj() {
 	//constructor
-	triangles.reserve(32000); //done to prevent pointers breaking; see readme
-	points.reserve(32000);
-	faces.reserve(32000);
-	edges.reserve(32000);
+	triangles.reserve(50000); //done to prevent pointers breaking; see readme
+	points.reserve(50000);
+	faces.reserve(50000);
+	edges.reserve(50000);
 }
 
 void obj::readData(std::string filename) { //reads in data from filename
