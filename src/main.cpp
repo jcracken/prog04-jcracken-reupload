@@ -19,8 +19,14 @@ int main(int argc, char** argv) {
 
 	object->storeData(); //store it in new data structure
 
-	for (i = 0; i < std::stoi(argv[3]); i++) { //run subdivision for numIterations
-		object->subdivide();
+	if (argc >= 5) {
+		for (i = 0; i < std::stoi(argv[3]); i++) { //run subdivision for numIterations
+			object->subdivide_ug(std::stof(argv[4]));
+		}
+	} else {
+		for (i = 0; i < std::stoi(argv[3]); i++) { //run subdivision for numIterations
+			object->subdivide();
+		}
 	}
 
 	object->writeData(argv[2]); //write the data to output file

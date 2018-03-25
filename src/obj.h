@@ -25,5 +25,6 @@ public:
 	void writeData(std::string filename); //write data from points and faces
 	void storeData(); //store data from points and faces in edges, triangles and pointconns
 	void subdivide(); //loop subdivision
+	void subdivide_ug(float lambda);
 };
 #endif

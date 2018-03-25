@@ -296,3 +296,26 @@ void obj::subdivide() { //loop subdivision
 	this->faces.swap(newFaces);
 	this->storeData();
 }
+
+void obj::subdivide_ug(float lambda) {
+	unsigned int i = 0;
+	unsigned int j = 0;
+
+	std::vector<vect> newPoints;
+
+	for (i = 0; i < this->points.size(); i++) { //even vertices
+		float temp[3] = { 0 };
+		for (j = 0; j < this->pointConns.at(i).size(); j++) {
+			temp[0] = temp[0] + (this->points.at(this->pointConns.at(i).at(j)).getArr()[0] - this->points.at(i).getArr()[0]) / this->pointConns.at(j).size();
+			temp[1] = temp[1] + (this->points.at(this->pointConns.at(i).at(j)).getArr()[1] - this->points.at(i).getArr()[1]) / this->pointConns.at(j).size();
+			temp[2] = temp[2] + (this->points.at(this->pointConns.at(i).at(j)).getArr()[2] - this->points.at(i).getArr()[2]) / this->pointConns.at(j).size();
+		}
+		temp[0] = temp[0] * lambda + this->points.at(i).getArr()[0];
+		temp[1] = temp[1] * lambda + this->points.at(i).getArr()[1];
+		temp[2] = temp[2] * lambda + this->points.at(i).getArr()[2];
+
+		newPoints.push_back(vect(temp[0], temp[1], temp[2]));
+	}
+	this->points.swap(newPoints);
+	this->storeData();
+}
